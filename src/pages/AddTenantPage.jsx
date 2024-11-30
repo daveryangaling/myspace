@@ -1,32 +1,34 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
 import { Form, Button, Col, Row, Table, Modal } from 'react-bootstrap';
-import './bootstrap/css/bootstrap.min.css'; // Ensure Bootstrap CSS is imported
-import '../styles/App.css'; // Import the custom CSS file
+import './bootstrap/css/bootstrap.min.css';
+import '../styles/App.css';
+
+const INITIAL_TENANT_STATE = {
+  firstName: '',
+  lastName: '',
+  gender: '',
+  birthday: '',
+  address: '',
+  occupation: '',
+  email: '',
+  phone: '',
+  propertyCount: '',
+  propertyType: '',
+  propertyNumber: '',
+  moveInDate: '',
+  moveOutDate: '',
+  leaseAgreement: '',
+  leaseTerm: false,
+};
 
 function AddTenantPage() {
   const [tenants, setTenants] = useState([]);
-  const [currentTenant, setCurrentTenant] = useState({
-    firstName: '',
-    lastName: '',
-    gender: '',
-    birthday: '',
-    address: '',
-    occupation: '',
-    email: '',
-    phone: '',
-    propertyCount: '',
-    propertyType: '',
-    propertyNumber: '',
-    moveInDate: '',
-    moveOutDate: '',
-    leaseAgreement: '',
-    leaseTerm: '',
-  });
+  const [currentTenant, setCurrentTenant] = useState(INITIAL_TENANT_STATE);
   const [editIndex, setEditIndex] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
+  // Handlers for form field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCurrentTenant((prevTenant) => ({
@@ -35,60 +37,60 @@ function AddTenantPage() {
     }));
   };
 
+  const handleCheckboxChange = (e) => {
+    setCurrentTenant((prevTenant) => ({
+      ...prevTenant,
+      leaseTerm: e.target.checked,
+    }));
+  };
+
+  // Submit handler for adding/updating tenant
   const handleSubmit = (e) => {
     e.preventDefault();
     if (editIndex !== null) {
-      const updatedTenants = tenants.map((tenant, index) =>
-        index === editIndex ? currentTenant : tenant
+      setTenants((prevTenants) =>
+        prevTenants.map((tenant, index) =>
+          index === editIndex ? currentTenant : tenant
+        )
       );
-      setTenants(updatedTenants);
       setEditIndex(null);
     } else {
-      setTenants([...tenants, currentTenant]);
+      setTenants((prevTenants) => [...prevTenants, currentTenant]);
     }
-    setCurrentTenant({
-      firstName: '',
-      lastName: '',
-      gender: '',
-      birthday: '',
-      address: '',
-      occupation: '',
-      email: '',
-      phone: '',
-      propertyCount: '',
-      propertyType: '',
-      propertyNumber: '',
-      moveInDate: '',
-      moveOutDate: '',
-      leaseAgreement: '',
-      leaseTerm: '',
-    });
+    resetForm();
+  };
+
+  const resetForm = () => {
+    setCurrentTenant(INITIAL_TENANT_STATE);
     setShowModal(false);
   };
 
+  // Edit tenant
   const handleEdit = (index) => {
     setCurrentTenant(tenants[index]);
     setEditIndex(index);
     setShowModal(true);
   };
 
+  // Delete tenant
   const handleDelete = (index) => {
-    const updatedTenants = tenants.filter((_, i) => i !== index);
-    setTenants(updatedTenants);
+    setTenants((prevTenants) => prevTenants.filter((_, i) => i !== index));
   };
 
+  // Modal visibility handlers
   const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
+  const handleCloseModal = () => resetForm();
 
   return (
     <div className="tenant-dashboard-container">
       <Sidebar />
       <div className="content-container">
-        <Header title="Tenant Management" userName="Name of Owner" />
         <div className="dashboard-background">
           <Button variant="primary" onClick={handleShowModal}>
             Add Tenant
           </Button>
+
+          {/* Tenant List */}
           <div className="tenant-list">
             <h3>Tenant List</h3>
             <Table striped bordered hover>
@@ -129,12 +131,14 @@ function AddTenantPage() {
                     <td>
                       <Button
                         variant="warning"
+                        size="sm"
                         onClick={() => handleEdit(index)}
                       >
                         Edit
-                      </Button>
+                      </Button>{' '}
                       <Button
                         variant="danger"
+                        size="sm"
                         onClick={() => handleDelete(index)}
                       >
                         Delete
@@ -147,13 +151,15 @@ function AddTenantPage() {
           </div>
         </div>
       </div>
+
+      {/* Modal for Adding/Editing Tenant */}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>{editIndex !== null ? 'Edit Tenant' : 'Add Tenant'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
-            <h3>Tenant Information</h3>
+            <h5>Tenant Information</h5>
             <Row>
               <Col>
                 <Form.Group controlId="firstName">
@@ -184,12 +190,15 @@ function AddTenantPage() {
             <Form.Group controlId="gender">
               <Form.Label>Gender</Form.Label>
               <Form.Control
-                type="text"
+                as="select"
                 name="gender"
                 value={currentTenant.gender}
                 onChange={handleChange}
-                placeholder="Enter gender"
-              />
+              >
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </Form.Control>
             </Form.Group>
 
             <Form.Group controlId="birthday">
@@ -203,13 +212,13 @@ function AddTenantPage() {
             </Form.Group>
 
             <Form.Group controlId="address">
-              <Form.Label>Home Address</Form.Label>
+              <Form.Label>Address</Form.Label>
               <Form.Control
                 type="text"
                 name="address"
                 value={currentTenant.address}
                 onChange={handleChange}
-                placeholder="Enter home address"
+                placeholder="Enter address"
               />
             </Form.Group>
 
@@ -236,7 +245,7 @@ function AddTenantPage() {
             </Form.Group>
 
             <Form.Group controlId="phone">
-              <Form.Label>Phone Number</Form.Label>
+              <Form.Label>Phone</Form.Label>
               <Form.Control
                 type="text"
                 name="phone"
@@ -246,28 +255,37 @@ function AddTenantPage() {
               />
             </Form.Group>
 
-            <h3>Property Information</h3>
-
-            <Form.Group controlId="propertyCount">
-              <Form.Label>Number of Properties</Form.Label>
-              <Form.Control
-                type="number"
-                name="propertyCount"
-                value={currentTenant.propertyCount}
-                onChange={handleChange}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="propertyType">
-              <Form.Label>Property Type</Form.Label>
-              <Form.Control
-                type="text"
-                name="propertyType"
-                value={currentTenant.propertyType}
-                onChange={handleChange}
-                placeholder="Enter property type"
-              />
-            </Form.Group>
+            <h5>Property Details</h5>
+            <Row>
+              <Col>
+                <Form.Group controlId="propertyCount">
+                  <Form.Label>Number of Properties</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="propertyCount"
+                    value={currentTenant.propertyCount}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group controlId="propertyType">
+                  <Form.Label>Property Type</Form.Label>
+                  <Form.Control
+                    as="select"
+                    name="propertyType"
+                    value={currentTenant.propertyType}
+                    onChange={handleChange}
+                  >
+                    <option value="">Select Property Type</option>
+                    <option value="Apartment">Apartment</option>
+                    <option value="Condo">Condo</option>
+                    <option value="House">House</option>
+                    <option value="Townhouse">Townhouse</option>
+                  </Form.Control>
+                </Form.Group>
+              </Col>
+            </Row>
 
             <Form.Group controlId="propertyNumber">
               <Form.Label>Property Number</Form.Label>
@@ -280,25 +298,30 @@ function AddTenantPage() {
               />
             </Form.Group>
 
-            <Form.Group controlId="moveInDate">
-              <Form.Label>Move In Date</Form.Label>
-              <Form.Control
-                type="date"
-                name="moveInDate"
-                value={currentTenant.moveInDate}
-                onChange={handleChange}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="moveOutDate">
-              <Form.Label>Move Out Date</Form.Label>
-              <Form.Control
-                type="date"
-                name="moveOutDate"
-                value={currentTenant.moveOutDate}
-                onChange={handleChange}
-              />
-            </Form.Group>
+            <Row>
+              <Col>
+                <Form.Group controlId="moveInDate">
+                  <Form.Label>Move In Date</Form.Label>
+                  <Form.Control
+                    type="date"
+                    name="moveInDate"
+                    value={currentTenant.moveInDate}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group controlId="moveOutDate">
+                  <Form.Label>Move Out Date</Form.Label>
+                  <Form.Control
+                    type="date"
+                    name="moveOutDate"
+                    value={currentTenant.moveOutDate}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
 
             <Form.Group controlId="leaseAgreement">
               <Form.Label>Lease Agreement</Form.Label>
@@ -309,40 +332,20 @@ function AddTenantPage() {
               <Form.Check
                 type="checkbox"
                 name="leaseTerm"
-                label="Short Term"
-                checked={currentTenant.leaseTerm === 'Short Term'}
-                onChange={() =>
-                  setCurrentTenant((prevTenant) => ({
-                    ...prevTenant,
-                    leaseTerm:
-                      prevTenant.leaseTerm === 'Short Term'
-                        ? ''
-                        : 'Short Term',
-                  }))
-                }
-              />
-              <Form.Check
-                type="checkbox"
-                name="leaseTerm"
-                label="Long Term"
-                checked={currentTenant.leaseTerm === 'Long Term'}
-                onChange={() =>
-                  setCurrentTenant((prevTenant) => ({
-                    ...prevTenant,
-                    leaseTerm:
-                      prevTenant.leaseTerm === 'Long Term'
-                        ? ''
-                        : 'Long Term',
-                  }))
-                }
+                label="Lease term has been signed"
+                checked={currentTenant.leaseTerm}
+                onChange={handleCheckboxChange}
               />
             </Form.Group>
-            <Button variant="secondary" onClick={handleCloseModal}>
-              Close
-            </Button>
-            <Button variant="primary" type="submit">
-              {editIndex !== null ? 'Update Tenant' : 'Add Tenant'}
-            </Button>
+
+            <div className="modal-footer">
+              <Button variant="secondary" onClick={handleCloseModal}>
+                Close
+              </Button>
+              <Button variant="primary" type="submit">
+                {editIndex !== null ? 'Update Tenant' : 'Add Tenant'}
+              </Button>
+            </div>
           </Form>
         </Modal.Body>
       </Modal>

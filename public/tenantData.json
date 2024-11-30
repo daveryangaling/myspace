@@ -1,0 +1,8 @@
+{
+    "tenantName": "John Doe",
+    "address": "123 Main St, Barangay Central",
+    "contactNumber": "09123456789",
+    "email": "johndoe@gmail.com",
+    "profilePicture": "../assets/logo.png"
+  }
+  

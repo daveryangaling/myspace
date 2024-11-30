@@ -11,7 +11,7 @@ function Sidebar() {
       setIsVisible(true);
       clearTimeout(timer); // Clear any existing timers
       timer = setTimeout(() => {
-        setIsVisible(false); // Hide sidebar after 3 seconds
+        setIsVisible(true); // Hide sidebar after 3 seconds
       }, 3000);
     };
 

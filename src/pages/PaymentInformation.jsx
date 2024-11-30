@@ -1,32 +1,24 @@
-import React, { useState } from 'react';
-import Sidebar from '../components/Sidebar'; // Sidebar component with navigation
-import '../bootstrap/css/bootstrap.min.css'; // Corrected import path
-import '../styles/App.css'; // Make sure to import the global CSS
+import React, { useState, useEffect } from 'react';
+import Sidebar from '../components/Sidebar';
+import '../bootstrap/css/bootstrap.min.css';
+import '../styles/App.css';
 
 function PaymentInformation() {
-  const [tenantName, setTenantName] = useState('');
-  const [roomNumber, setRoomNumber] = useState('');
-  const [roomType, setRoomType] = useState('');
-  const [leaseStart, setLeaseStart] = useState('');
-  const [leaseEnd, setLeaseEnd] = useState('');
-  const [totalAmountDue, setTotalAmountDue] = useState(0);
-  const [amountPaid, setAmountPaid] = useState(0);
-  const [status, setStatus] = useState('Pending');
-  const [paymentMethod, setPaymentMethod] = useState('Cash');
-  const [saveStatus, setSaveStatus] = useState('');
+  const [payments, setPayments] = useState([]);
+  const [selectedPayment, setSelectedPayment] = useState(null);
 
-  const handleSave = () => {
-    // Simulate saving process
-    const success = true; // This should be the result of your save process
+  useEffect(() => {
+    fetch("/paymentData.json")
+      .then(response => response.json())
+      .then(data => setPayments(data));
+  }, []);
 
-    if (success) {
-      setSaveStatus('Payment summary was successfully saved.');
+  const handleToggleDetails = (index) => {
+    if (selectedPayment === index) {
+      setSelectedPayment(null);
     } else {
-      setSaveStatus('Failed to save payment summary. Please try again.');
+      setSelectedPayment(index);
     }
-
-    console.log("Payment information saved.");
-    // Here you could add code to handle saving to a database or API
   };
 
   return (
@@ -35,113 +27,64 @@ function PaymentInformation() {
         <Sidebar />
       </div>
       <div className="content-container">
-        <h2 className="my-4">Payment Management</h2>
-        <div className="form-group mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search Tenant"
-          />
-        </div>
         <div className="card p-4 form-card">
           <h3 className="card-title">Payment Summary</h3>
-          <div className="form-group">
-            <label>Tenant Name:</label>
-            <input
-              type="text"
-              className="form-control"
-              value={tenantName}
-              onChange={(e) => setTenantName(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label>Room Number:</label>
-            <input
-              type="text"
-              className="form-control"
-              value={roomNumber}
-              onChange={(e) => setRoomNumber(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label>Room Type:</label>
-            <input
-              type="text"
-              className="form-control"
-              value={roomType}
-              onChange={(e) => setRoomType(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label>Lease Start Date:</label>
-            <input
-              type="date"
-              className="form-control"
-              value={leaseStart}
-              onChange={(e) => setLeaseStart(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label>Lease End Date:</label>
-            <input
-              type="date"
-              className="form-control"
-              value={leaseEnd}
-              onChange={(e) => setLeaseEnd(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label>Total Amount Due:</label>
-            <input
-              type="number"
-              className="form-control"
-              value={totalAmountDue}
-              onChange={(e) => setTotalAmountDue(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label>Amount Paid:</label>
-            <input
-              type="number"
-              className="form-control"
-              value={amountPaid}
-              onChange={(e) => setAmountPaid(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label>Status:</label>
-            <select
-              className="form-select"
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-            >
-              <option value="Pending">Pending</option>
-              <option value="Partial">Partial</option>
-              <option value="Paid">Paid</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Payment Method:</label>
-            <select
-              className="form-select"
-              value={paymentMethod}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            >
-              <option value="Cash">Cash</option>
-              <option value="Credit Card">Credit Card</option>
-              <option value="Bank Transfer">Bank Transfer</option>
-              <option value="GCash">GCash</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Proof of Payment:</label>
-            <input type="file" className="form-control-file" />
-          </div>
-          <div className="button-group mt-4 form-row">
-            <button onClick={handleSave} className="btn btn-primary">Save</button>
-            <button className="btn btn-secondary">Cancel</button>
-          </div>
-          {saveStatus && <div className="alert alert-info mt-3">{saveStatus}</div>}
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Room</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {payments.map((payment, index) => (
+                <React.Fragment key={index}>
+                  <tr>
+                    <td>{payment.id}</td>
+                    <td>{payment.date}</td>
+                    <td>{payment.tenantName}</td>
+                    <td>{payment.roomNumber}</td>
+                    <td>{payment.description}</td>
+                    <td>
+                      <span className={`badge bg-${payment.status === 'Pending' ? 'warning' : 'success'}`}>
+                        {payment.status}
+                      </span>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-info"
+                        onClick={() => handleToggleDetails(index)}
+                      >
+                        {selectedPayment === index ? 'Hide Details' : 'View'}
+                      </button>
+                    </td>
+                  </tr>
+                  {selectedPayment === index && (
+                    <tr>
+                      <td colSpan="7">
+                        <div className="payment-details p-3">
+                          <p><strong>No. of Properties:</strong> {payment.noOfProperties}</p>
+                          <p><strong>Property Type:</strong> {payment.propertyType}</p>
+                          <p><strong>Property Number:</strong> {payment.propertyNumber}</p>
+                          <p><strong>Total Amount Due:</strong> ₱{payment.totalAmountDue}</p>
+                          <p><strong>Due Date:</strong> {payment.dueDate}</p>
+                          <p><strong>Method:</strong> {payment.paymentMethod}</p>
+                          <p><strong>Amount Paid:</strong> ₱{payment.amountPaid}</p>
+                          <p><strong>Balance:</strong> ₱{payment.balance}</p>
+                          <p><strong>Proof:</strong> <a href={payment.proof} target="_blank" rel="noopener noreferrer">{payment.proof}</a></p>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

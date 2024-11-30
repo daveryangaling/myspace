@@ -10,18 +10,6 @@ body {
   background-color: #f4f4f9;
 }
 
-/* Main Content */
-.main-content {
-  flex: 1;
-  background-image: url('../assets/adminbg.png');
-  background-size: cover;
-  background-position: center;
-  padding: 20px;
-  color: #333;
-  margin-left: 250px; /* Offset the main content to the right of the sidebar */
-  transition: margin-left 0.3s ease; /* Smooth transition for margin shift when sidebar hides */
-}
-
 /* Tenant Dashboard Container */
 .tenant-dashboard-container {
   display: flex;
@@ -33,19 +21,17 @@ body {
 .sidebar {
   width: 250px;
   height: 100%;
-  background-color: #3b3f58; /* Dark slate color for the sidebar background */
+  background-color: #3b3f58; /* Dark slate */
   color: white;
   display: flex;
   flex-direction: column;
   padding: 20px;
-  transition: transform 0.3s; /* Smooth hide/show transition */
   position: fixed; /* Fix sidebar to the left */
-  z-index: 1000; /* Ensure it's on top */
+  z-index: 1000; /* On top */
   top: 0;
   left: 0;
 }
 
-/* Sidebar title (MySpace) */
 .sidebar-title {
   color: #ffa500; /* Orange */
   font-size: 1.5rem;
@@ -53,16 +39,6 @@ body {
   margin-bottom: 20px;
 }
 
-/* Sidebar visibility states */
-.sidebar.visible {
-  transform: translateX(0);
-}
-
-.sidebar.hidden {
-  transform: translateX(-100%); /* Hide the sidebar off-screen */
-}
-
-/* Sidebar Links */
 .sidebar-links {
   list-style: none;
   padding: 0;
@@ -79,17 +55,15 @@ body {
   font-size: 1rem;
   text-decoration: none;
   color: white;
-  background-color: #5a5f7d; /* Medium slate color */
+  background-color: #5a5f7d; /* Medium slate */
   text-align: center;
-  transition: background-color 0.3s, transform 0.3s;
 }
 
 .sidebar-links li a:hover {
   background-color: #767b98; /* Lighter slate on hover */
-  transform: scale(1.05); /* Slight scaling effect */
+  transform: scale(1.05); /* Slight scaling */
 }
 
-/* Logout Link */
 .logout-link {
   color: white;
   text-decoration: none;
@@ -100,49 +74,38 @@ body {
   display: block;
   padding: 10px 15px;
   border-radius: 5px;
-  background-color: #d9534f; /* Red color for logout */
+  background-color: #d9534f; /* Red */
   text-align: center;
   transition: background-color 0.3s, transform 0.3s;
 }
 
 .logout-link:hover {
-  background-color: #c9302c; /* Darker red for hover effect */
+  background-color: #c9302c; /* Darker red */
   transform: scale(1.05);
 }
 
 /* Content Container */
 .content-container {
-  margin-left: 250px; /* Adjust content for sidebar width */
+  margin-left: 250px; /* Adjust for sidebar */
   flex-grow: 1;
   padding: 20px;
   overflow-y: auto;
-  transition: margin-left 0.3s; /* Smooth transition for sidebar visibility */
+  transition: margin-left 0.3s; /* Smooth sidebar visibility */
 }
 
-/* Full-Screen Background with Image */
-.dashboard-background {
-  background-image: url('../assets/adminbg.png'); /* Replace with your background image path */
-  background-size: cover;
-  background-position: center;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Card Styling */
+/* Form Card */
 .form-card {
-  background: rgba(255, 255, 255, 0.9); /* Slight transparency for readability */
+  background: rgba(255, 255, 255, 0.9); /* Slight transparency */
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   width: 70%;
   max-width: 800px;
   text-align: left;
-  z-index: 10; /* Ensure it sits above other elements */
+  z-index: 10; /* On top */
 }
 
-/* Form Styling */
+/* Form Row */
 .form-row {
   display: flex;
   justify-content: space-between;
@@ -150,7 +113,7 @@ body {
   margin-bottom: 20px;
 }
 
-.form-row .form-group {
+.form-group {
   flex: 1;
   margin: 0 10px;
 }
@@ -177,7 +140,6 @@ body {
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* Buttons */
 .form-row button {
   padding: 12px 20px;
   border: none;
@@ -186,27 +148,27 @@ body {
   cursor: pointer;
 }
 
-.form-row .btn-danger {
+.btn-danger {
   background-color: #dc3545;
   color: white;
   transition: background-color 0.3s ease;
 }
 
-.form-row .btn-danger:hover {
+.btn-danger:hover {
   background-color: #b02a37;
 }
 
-.form-row .btn-primary {
+.btn-primary {
   background-color: #007bff;
   color: white;
   transition: background-color 0.3s ease;
 }
 
-.form-row .btn-primary:hover {
+.btn-primary:hover {
   background-color: #0056b3;
 }
 
-/* Property Information Styles */
+/* Property Info Header */
 .property-info-header {
   display: flex;
   justify-content: space-between;
@@ -229,25 +191,47 @@ body {
   transform: scale(1.05); /* Slight scaling on hover */
 }
 
+/* Modal customizations */
+.modal-content {
+  overflow-y: auto; /* Enable scrolling if content overflows */
+  padding: 20px;
+  border-radius: 10px; /* Consistent with other rounded elements */
+}
+
+.add-tenant-modal .modal-content {
+  max-height: 90vh; /* Taller height for adding a tenant */
+}
+
+.edit-tenant-modal .modal-content {
+  max-height: 70vh; /* Shorter height for editing a tenant */
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    max-height: 100vh; /* Use the full viewport height */
+  }
+}
+
+/* General modal body padding */
+.modal-body {
+  padding: 20px; /* Ensure consistent spacing inside the modal */
+}
+
 /* Responsiveness */
 @media screen and (max-width: 768px) {
-  /* Adjust form-card width */
   .form-card {
     width: 90%;
   }
 
-  /* Adjust form-row direction for mobile */
   .form-row {
     flex-direction: column;
     gap: 10px;
   }
 
-  /* Adjust content container for mobile */
   .content-container {
     margin-left: 0;
   }
 
-  /* Adjust sidebar width for mobile */
   .sidebar {
     width: 200px; /* Narrower sidebar */
   }
