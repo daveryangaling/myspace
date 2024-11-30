@@ -1,0 +1,23 @@
+[
+    {
+      "email": "admin@gmail.com",
+      "password": "admin123"
+    },
+    {
+      "email": "user@gmail.com",
+      "password": "user123"
+    },
+    {
+      "email": "test@gmail.com",
+      "password": "test123"
+    },
+    {
+        "email": "aubriel123@gmail.com",
+        "password  ": "aubriel123"
+    },
+    {
+        "email": "debbyyyy1213@gmail.com",
+        "password": "deb123"
+    }
+  ]
+  

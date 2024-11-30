@@ -1,0 +1,47 @@
+{
+    "tenants": [
+      {
+        "firstName": "John",
+        "lastName": "Doe",
+        "gender": "Male",
+        "birthday": "1990-01-01",
+        "address": "123 Main St, Springfield",
+        "occupation": "Software Engineer",
+        "email": "john.doe@example.com",
+        "phone": "123-456-7890",
+        "properties": [
+          {
+            "propertyCount": 1,
+            "propertyType": "Apartment",
+            "propertyNumber": "A101",
+            "moveInDate": "2023-01-01",
+            "moveOutDate": "2024-01-01",
+            "leaseAgreement": "lease_agreement_a101.pdf",
+            "leaseTerm": "Long Term"
+          }
+        ]
+      },
+      {
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "gender": "Female",
+        "birthday": "1985-05-15",
+        "address": "456 Elm St, Metropolis",
+        "occupation": "Graphic Designer",
+        "email": "jane.smith@example.com",
+        "phone": "987-654-3210",
+        "properties": [
+          {
+            "propertyCount": 2,
+            "propertyType": "House",
+            "propertyNumber": "H202",
+            "moveInDate": "2022-06-15",
+            "moveOutDate": "2023-06-15",
+            "leaseAgreement": "lease_agreement_h202.pdf",
+            "leaseTerm": "Short Term"
+          }
+        ]
+      }
+    ]
+  }
+  
