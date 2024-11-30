@@ -1,12 +1,8 @@
-// src/components/Dashboard/TenantManagement.js
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { useData } from '../../context/DataContext';
 import { toast } from 'react-toastify';
-
-const Container = styled.div`
-  padding: 20px;
-`;
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './TenantManagement.css'; // Import custom CSS for tenant management
 
 function TenantManagement() {
   const { state, dispatch } = useData();
@@ -33,9 +29,17 @@ function TenantManagement() {
   };
 
   return (
-    <Container>
-      <h2>Tenant Management</h2>
-      <table>
+    <div className="container">
+      <h2 className="my-4">Tenant Management</h2>
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Room</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
         <tbody>
           {state.tenants.map((tenant, index) => (
             <tr key={index}>
@@ -43,32 +47,41 @@ function TenantManagement() {
               <td>{tenant.email}</td>
               <td>{tenant.room}</td>
               <td>
-                <button onClick={() => handleDeleteTenant(index)}>Delete</button>
+                <button className="btn btn-danger" onClick={() => handleDeleteTenant(index)}>Delete</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <input
-        type="text"
-        placeholder="Name"
-        value={newTenant.name}
-        onChange={(e) => setNewTenant({ ...newTenant, name: e.target.value })}
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        value={newTenant.email}
-        onChange={(e) => setNewTenant({ ...newTenant, email: e.target.value })}
-      />
-      <input
-        type="text"
-        placeholder="Room" 
-        value={newTenant.room}
-        onChange={(e) => setNewTenant({ ...newTenant, room: e.target.value })}
-      />
-      <button onClick={handleAddTenant}>Add Tenant</button>
-    </Container>
+      <div className="mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Name"
+          value={newTenant.name}
+          onChange={(e) => setNewTenant({ ...newTenant, name: e.target.value })}
+        />
+      </div>
+      <div className="mb-3">
+        <input
+          type="email"
+          className="form-control"
+          placeholder="Email"
+          value={newTenant.email}
+          onChange={(e) => setNewTenant({ ...newTenant, email: e.target.value })}
+        />
+      </div>
+      <div className="mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Room"
+          value={newTenant.room}
+          onChange={(e) => setNewTenant({ ...newTenant, room: e.target.value })}
+        />
+      </div>
+      <button className="btn btn-primary" onClick={handleAddTenant}>Add Tenant</button>
+    </div>
   );
 }
 
