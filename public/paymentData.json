@@ -1,0 +1,47 @@
+[
+    {
+      "tenantName": "John Doe",
+      "roomNumber": "101",
+      "roomType": "Single",
+      "leaseStart": "2023-01-01",
+      "leaseEnd": "2023-12-31",
+      "totalAmountDue": 12000,
+      "amountPaid": 12000,
+      "status": "Paid",
+      "paymentMethod": "Credit Card"
+    },
+    {
+      "tenantName": "Jane Smith",
+      "roomNumber": "102",
+      "roomType": "Double",
+      "leaseStart": "2023-02-01",
+      "leaseEnd": "2023-11-30",
+      "totalAmountDue": 10000,
+      "amountPaid": 8000,
+      "status": "Partial",
+      "paymentMethod": "Bank Transfer"
+    },
+    {
+      "tenantName": "Alice Johnson",
+      "roomNumber": "103",
+      "roomType": "Single",
+      "leaseStart": "2023-03-01",
+      "leaseEnd": "2023-10-31",
+      "totalAmountDue": 8000,
+      "amountPaid": 6000,
+      "status": "Partial",
+      "paymentMethod": "Cash"
+    },
+    {
+      "tenantName": "Bob Brown",
+      "roomNumber": "104",
+      "roomType": "Studio",
+      "leaseStart": "2023-04-01",
+      "leaseEnd": "2023-09-30",
+      "totalAmountDue": 6000,
+      "amountPaid": 6000,
+      "status": "Paid",
+      "paymentMethod": "GCash"
+    }
+  ]
+  

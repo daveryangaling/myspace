@@ -58,13 +58,13 @@ function TenantPaymentMethod() {
           <div className="form-check">
             <input className="form-check-input" type="radio" name="paymentMethod" id="gcash" value="gcash" />
             <label className="form-check-label" htmlFor="gcash">
-              GCash <img src="../assets/gcas.png" alt="GCash" />
+              GCash <img src="./images/gcas.png" alt="GCash" style={{ height: '50px', width: 'auto' }} />
             </label>
           </div>
           <div className="form-check">
             <input className="form-check-input" type="radio" name="paymentMethod" id="paymaya" value="paymaya" />
             <label className="form-check-label" htmlFor="paymaya">
-              PayMaya <img src="../assets/maya.jpg" alt="PayMaya" />
+              PayMaya <img src="./images/maya.jpg" alt="PayMaya" style={{ height: '50px', width: 'auto' }} />
             </label>
           </div>
           <button className="btn btn-primary mt-3" onClick={handleSubmit}>Submit</button>

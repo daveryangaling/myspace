@@ -1,0 +1,28 @@
+[
+    {
+      "id": 1,
+      "name": "Property 1",
+      "type": "Single Family Home",
+      "status": "Available",
+      "tenant": "John Doe",
+      "image": "./images/singles.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Property 2",
+      "type": "Condo",
+      "status": "Occupied",
+      "tenant": "Jane Smith",
+      "image": "./images/condo.jpg"
+    },
+    {
+        "id": 3,
+        "name": "Property 3",
+        "type": "Duplex",
+        "status": "Occupied",
+        "tenant": "Tony Stark",
+        "image": "./images/duplex.jpg"
+      }
+   
+  ]
+  

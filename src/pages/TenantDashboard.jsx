@@ -1,30 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, ListGroup } from 'react-bootstrap';
 import TenantSidebar from '../components/TenantSidebar'; // Import TenantSidebar
 import '../styles/TenantSide.css'; // Ensure the CSS is linked properly
 
 const TenantDashboard = () => {
-  const properties = [
-    {
-      name: 'Apartment 1A',
-      address: '123 Main St, City, State',
-      rent: '$1200/month',
-      leaseStart: '01/01/2023',
-      leaseEnd: '12/31/2023',
-    },
-    {
-      name: 'Apartment 2B',
-      address: '456 Elm St, City, State',
-      rent: '$1500/month',
-      leaseStart: '02/01/2023',
-      leaseEnd: '01/31/2024',
-    },
-  ];
+  const [properties, setProperties] = useState([]);
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    // Fetch properties data from JSON file
+    fetch('/data.json')
+      .then(response => response.json())
+      .then(data => setProperties(data));
+
+    // Retrieve user name from local storage
+    const storedUserName = localStorage.getItem('userName');
+    if (storedUserName) {
+      setUserName(storedUserName);
+    }
+  }, []);
 
   return (
     <div className="dashboard-container">
       {/* Sidebar Section */}
-      <TenantSidebar />
+      <TenantSidebar userName={userName} />
 
       {/* Main Content Section */}
       <div className="main-content">

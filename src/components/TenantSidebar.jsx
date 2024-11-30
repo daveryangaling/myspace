@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom'; // Import Link and useLocation from react-router-dom
 import '../styles/TenantSide.css'; // Custom CSS for the sidebar
 
-function TenantSidebar() {
+const TenantSidebar = ({ userName }) => {
   const location = useLocation(); // Get the current URL path
   const [isVisible, setIsVisible] = useState(true); // State to control sidebar visibility
 
@@ -12,7 +12,7 @@ function TenantSidebar() {
       setIsVisible(true); // Show sidebar when mouse is moved
       clearTimeout(timer); // Clear any existing timer
       timer = setTimeout(() => {
-        setIsVisible(false); // Hide sidebar after 3 seconds
+        setIsVisible(true); // Hide sidebar after 3 seconds
       }, 3000);
     };
 
@@ -29,7 +29,7 @@ function TenantSidebar() {
     <aside className={`sidebar ${isVisible ? 'visible' : 'hidden'}`}>
       {/* Logo Section */}
       <div className="logo">
-        <img src="../assets/logo.png" alt="MySpace Logo" />
+        <img src="./images/logo.png" alt="MySpace Logo" />
         <h1>MySpace</h1>
       </div>
 
@@ -38,7 +38,7 @@ function TenantSidebar() {
         <div className="profile-picture">
           <i className="fa fa-user-circle" aria-hidden="true"></i>
         </div>
-        <p>User (Name)</p>
+        <p>{userName ? `Welcome, ${userName}` : 'Welcome, Tenant'}</p>
       </div>
 
       {/* Navigation Menu */}
@@ -68,6 +68,12 @@ function TenantSidebar() {
               Payment Method
             </Link>
           </li>
+          <li className={location.pathname === '/tenant-property-information' ? 'active' : ''}>
+            <Link to="/tenant-property-information">
+              <i className="fa fa-home" aria-hidden="true"></i>
+              Property Information
+            </Link>
+          </li>
           <li className={location.pathname === '/tenant-maintenance-request' ? 'active' : ''}>
             <Link to="/tenant-maintenance-request">
               <i className="fa fa-wrench" aria-hidden="true"></i>
@@ -89,6 +95,6 @@ function TenantSidebar() {
       </Link>
     </aside>
   );
-}
+};
 
 export default TenantSidebar;

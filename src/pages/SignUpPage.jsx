@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import './bootstrap/css/bootstrap.min.css';
+import '../styles/LoginPage.css';
+
 
 // Temporary in-memory storage for user data
 const tempStorage = [];
 
-function SignUpPage() {
+const SignUpPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -50,53 +53,56 @@ function SignUpPage() {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100">
-      <div className="card p-4 shadow" style={{ maxWidth: '400px', width: '100%' }}>
-        <h2 className="text-center mb-4">Sign Up</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">Email</label>
-            <input
+    <div className="d-flex justify-content-center align-items-center vh-100" style={{ background: '#f8f9fa' }}>
+      <div className="text-center">
+        <div className="mb-4">
+          <img src="../assets/logo.png" alt="MySpace Logo" />
+          <h1 className="h3 mb-3 font-weight-normal">Sign Up</h1>
+        </div>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Control
               type="email"
-              id="email"
-              className="form-control"
-              placeholder="Your Email"
+              placeholder="Your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">Password</label>
-            <input
+          </Form.Group>
+          <Form.Group controlId="formBasicPassword">
+            <Form.Control
               type="password"
-              id="password"
-              className="form-control"
-              placeholder="Password (min 6 characters)"
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-            <input
+          </Form.Group>
+          <Form.Group controlId="formBasicConfirmPassword">
+            <Form.Control
               type="password"
-              id="confirmPassword"
-              className="form-control"
               placeholder="Confirm Password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
-          </div>
+          </Form.Group>
           {error && <p className="text-danger small">{error}</p>}
           {feedback && <p className="text-success small">{feedback}</p>}
-          <button type="submit" className="btn btn-primary w-100">Sign Up</button>
-        </form>
-        <div className="mt-3 text-center">
-          <Link to="/" className="d-block">Already have an account? Log in</Link>
-        </div>
+          <Button variant="primary" type="submit" block>
+            Sign Up
+          </Button>
+        </Form>
+        <hr />
+        <Button variant="outline-danger" block>
+          <i className="fab fa-google"></i> Sign Up with Google
+        </Button>
+        <Button variant="outline-primary" block>
+          <i className="fab fa-facebook-f"></i> Sign Up with Facebook
+        </Button>
+        <p className="mt-3">
+          Already have an account? <Link to="/">Log In</Link>
+        </p>
       </div>
     </div>
   );
-}
+};
 
 export default SignUpPage;

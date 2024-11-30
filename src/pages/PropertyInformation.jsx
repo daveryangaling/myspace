@@ -1,24 +1,20 @@
-import React, { useState } from 'react';
-//import Header from '../components/Header';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import './bootstrap/css/bootstrap.min.css';
 import '../styles/App.css'; // Import your custom CSS
 
-const initialProperties = [
-  { id: 1, name: 'Property 1', type: 'Single Family Home', status: 'Available', tenant: 'John Doe' },
-  { id: 2, name: 'Property 2', type: 'Condo', status: 'Occupied', tenant: 'Jane Smith' },
-  { id: 3, name: 'Property 3', type: 'Apartment', status: 'Available', tenant: 'Michael Johnson' },
-  { id: 4, name: 'Property 4', type: 'Townhouse', status: 'Occupied', tenant: 'Emily Davis' },
-  { id: 5, name: 'Property 5', type: 'Duplex', status: 'Available', tenant: 'Chris Brown' },
-  // Add more property details as needed
-];
-
 function PropertyInformation() {
-  const [properties, setProperties] = useState(initialProperties);
+  const [properties, setProperties] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState(null);
-  const [propertyType, setPropertyType] = useState('Room');
   const [filterType, setFilterType] = useState('All');
-  const [newProperty, setNewProperty] = useState({ name: '', type: '', status: 'Available', tenant: '' });
+  const [newProperty, setNewProperty] = useState({ name: '', type: '', status: 'Available', tenant: '', image: '' });
+  const [showAddPropertyForm, setShowAddPropertyForm] = useState(false);
+
+  useEffect(() => {
+    fetch("/properties.json")
+      .then(response => response.json())
+      .then(data => setProperties(data));
+  }, []);
 
   const openPropertyDetails = (property) => {
     setSelectedProperty(property);
@@ -26,10 +22,6 @@ function PropertyInformation() {
 
   const closePropertyDetails = () => {
     setSelectedProperty(null);
-  };
-
-  const handlePropertyTypeChange = (event) => {
-    setPropertyType(event.target.value);
   };
 
   const handleFilterTypeChange = (event) => {
@@ -43,7 +35,8 @@ function PropertyInformation() {
 
   const addProperty = () => {
     setProperties([...properties, { ...newProperty, id: properties.length + 1 }]);
-    setNewProperty({ name: '', type: '', status: 'Available', tenant: '' });
+    setNewProperty({ name: '', type: '', status: 'Available', tenant: '', image: '' });
+    setShowAddPropertyForm(false);
   };
 
   const deleteProperty = (id) => {
@@ -56,11 +49,9 @@ function PropertyInformation() {
   };
 
   const renderFeedback = (status) => {
-    if (status === 'Available') {
-      return <p className="alert alert-success">This property is available for rent. Feel free to contact us for more details!</p>;
-    } else {
-      return <p className="alert alert-info">This property is currently occupied. Please check back later for availability.</p>;
-    }
+    return status === 'Available'
+      ? <p className="alert alert-success">This property is available for rent. Feel free to contact us for more details!</p>
+      : <p className="alert alert-info">This property is currently occupied. Please check back later for availability.</p>;
   };
 
   const filteredProperties = filterType === 'All' 
@@ -71,19 +62,8 @@ function PropertyInformation() {
     <div className="tenant-dashboard-container">
       <Sidebar />
       <div className="content-container">
-        {/*<Header title="Property Information" userName="Admin" />*/}
         <div className="property-info-header">
           <h2>Property Information</h2>
-          <div className="property-type-dropdown">
-            <select value={propertyType} onChange={handlePropertyTypeChange}>
-              <option value="Room">Room</option>
-              <option value="Bed Spacer">Bed Spacer</option>
-              <option value="Apartment">Apartment</option>
-              <option value="Condominium">Condominium</option>
-              <option value="Parking Lot">Parking Lot</option>
-              <option value="Commercial Space">Commercial Space</option>
-            </select>
-          </div>
           <div className="property-filter-dropdown">
             <select value={filterType} onChange={handleFilterTypeChange}>
               <option value="All">All</option>
@@ -92,58 +72,82 @@ function PropertyInformation() {
               <option value="Apartment">Apartment</option>
               <option value="Townhouse">Townhouse</option>
               <option value="Duplex">Duplex</option>
-              {/* Add more types as needed */}
+              <option value="Commercial Space">Commercial Space</option>
+              <option value="Parking Lot">Parking Lot</option>
+              <option value="Bed Spacer">Bed Spacer</option>
             </select>
           </div>
+          <button onClick={() => setShowAddPropertyForm(!showAddPropertyForm)} className="btn btn-primary">
+            {showAddPropertyForm ? 'Close Add Property Form' : 'Add New Property'}
+          </button>
         </div>
+
+        {showAddPropertyForm && (
+          <div className="new-property-form mt-4">
+            <h3>Add New Property</h3>
+            <input
+              type="text"
+              name="name"
+              placeholder="Name"
+              value={newProperty.name}
+              onChange={handleNewPropertyChange}
+            />
+            <select
+              name="type"
+              value={newProperty.type}
+              onChange={handleNewPropertyChange}
+            >
+              <option value="">Select Type</option>
+              <option value="Single Family Home">Single Family Home</option>
+              <option value="Condo">Condo</option>
+              <option value="Apartment">Apartment</option>
+              <option value="Townhouse">Townhouse</option>
+              <option value="Duplex">Duplex</option>
+              <option value="Commercial Space">Commercial Space</option>
+              <option value="Parking Lot">Parking Lot</option>
+              <option value="Bed Spacer">Bed Spacer</option>
+            </select>
+            <select
+              name="status"
+              value={newProperty.status}
+              onChange={handleNewPropertyChange}
+            >
+              <option value="Available">Available</option>
+              <option value="Occupied">Occupied</option>
+            </select>
+            <input
+              type="text"
+              name="tenant"
+              placeholder="Tenant"
+              value={newProperty.tenant}
+              onChange={handleNewPropertyChange}
+            />
+            <input
+              type="text"
+              name="image"
+              placeholder="Image URL"
+              value={newProperty.image}
+              onChange={handleNewPropertyChange}
+            />
+            <button onClick={addProperty} className="btn btn-primary">Add Property</button>
+          </div>
+        )}
+
         <div className="row mt-4">
           {filteredProperties.map((property) => (
             <div
               key={property.id}
               className={`col-md-4 mb-4 property-card ${property.status === 'Occupied' ? 'bg-danger' : 'bg-success'} text-white p-3`}
-              onClick={() => openPropertyDetails(property)}
               style={{ cursor: 'pointer' }}
             >
+              <img src={`${process.env.PUBLIC_URL}/${property.image}`} alt={property.name} onClick={() => openPropertyDetails(property)} style={{ width: '100%' }} />
               <h3>{property.name}</h3>
               <p>{property.type}</p>
               <span>{property.status}</span>
               <button onClick={() => deleteProperty(property.id)} className="btn btn-danger">Delete</button>
+              <button onClick={() => openPropertyDetails(property)} className="btn btn-secondary">Edit</button>
             </div>
           ))}
-        </div>
-
-        <div className="new-property-form">
-          <h3>Add New Property</h3>
-          <input
-            type="text"
-            name="name"
-            placeholder="Name"
-            value={newProperty.name}
-            onChange={handleNewPropertyChange}
-          />
-          <input
-            type="text"
-            name="type"
-            placeholder="Type"
-            value={newProperty.type}
-            onChange={handleNewPropertyChange}
-          />
-          <select
-            name="status"
-            value={newProperty.status}
-            onChange={handleNewPropertyChange}
-          >
-            <option value="Available">Available</option>
-            <option value="Occupied">Occupied</option>
-          </select>
-          <input
-            type="text"
-            name="tenant"
-            placeholder="Tenant"
-            value={newProperty.tenant}
-            onChange={handleNewPropertyChange}
-          />
-          <button onClick={addProperty} className="btn btn-primary">Add Property</button>
         </div>
 
         {selectedProperty && (
@@ -183,6 +187,13 @@ function PropertyInformation() {
                     placeholder="Tenant"
                     value={selectedProperty.tenant}
                     onChange={(e) => setSelectedProperty({ ...selectedProperty, tenant: e.target.value })}
+                  />
+                  <input
+                    type="text"
+                    name="image"
+                    placeholder="Image URL"
+                    value={selectedProperty.image}
+                    onChange={(e) => setSelectedProperty({ ...selectedProperty, image: e.target.value })}
                   />
                   {renderFeedback(selectedProperty.status)}
                 </div>

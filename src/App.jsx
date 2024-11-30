@@ -16,8 +16,12 @@ import TenantMaintenanceRequest from './pages/TenantMaintenanceRequest';
 import TenantDashboard from './pages/TenantDashboard';
 import FeedbackPage from './pages/FeedbackPage';
 import TenantFeedback from './pages/TenantFeedback';
+import TenantPropertyInformation from './pages/TenantPropertyInformation';
 import './styles/App.css';
 import './styles/TenantSide.css';
+import './styles/LoginPage.css';
+
+
 
 function App() {
   return (
@@ -40,6 +44,7 @@ function App() {
           <Route path="/tenant-dashboard" element={<TenantDashboard />} />
           <Route path="/feedback" element={<FeedbackPage />} />
           <Route path="/tenant-feedback" element={<TenantFeedback />} />
+          <Route path="/tenant-property-information" element={<TenantPropertyInformation />} />
         </Routes>
       </div>
     </Router>

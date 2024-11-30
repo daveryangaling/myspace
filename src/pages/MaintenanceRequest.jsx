@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar'; // Sidebar component with navigation
 import './bootstrap/css/bootstrap.min.css';
@@ -9,12 +9,15 @@ function MaintenanceRequest() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
-  const [maintenanceRequests, setMaintenanceRequests] = useState([
-    { id: '001', date: '09/01/2024', name: 'Rhome UName', room: '001', description: 'Leaking sink', status: 'Pending' },
-    { id: '002', date: '09/15/2024', name: 'Rhome UName', room: '002', description: 'Broken window', status: 'Pending' },
-    { id: '003', date: '09/16/2024', name: 'Rhome UName', room: '003', description: 'Heating issue', status: 'In Progress' },
-    // Add more as needed
-  ]);
+  const [maintenanceRequests, setMaintenanceRequests] = useState([]);
+
+  // Fetch maintenance requests from JSON file
+  useEffect(() => {
+    fetch('/maintenanceRequest.json')
+      .then((response) => response.json())
+      .then((data) => setMaintenanceRequests(data))
+      .catch((error) => console.error('Error fetching maintenance requests:', error));
+  }, []);
 
   const filteredRequests = maintenanceRequests.filter(request =>
     request.name.toLowerCase().includes(searchTerm.toLowerCase())
