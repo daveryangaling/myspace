@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import './bootstrap/css/bootstrap.min.css';
-import '../styles/LoginPage.css';
-
+//import '../styles/SignUpPage.css'; // Ensure the correct CSS file path
 
 // Temporary in-memory storage for user data
 const tempStorage = [];
@@ -53,14 +52,15 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100" style={{ background: '#f8f9fa' }}>
-      <div className="text-center">
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-custom">
+      <div className="form-container text-center">
         <div className="mb-4">
-          <img src="../assets/logo.png" alt="MySpace Logo" />
+          <img src="./images/logo.png" alt="MySpace Logo" className="logo" />
           <h1 className="h3 mb-3 font-weight-normal">Sign Up</h1>
         </div>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="formBasicEmail">
+            <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
               placeholder="Your email"
@@ -69,6 +69,7 @@ const SignUpPage = () => {
             />
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
               placeholder="Password"
@@ -77,6 +78,7 @@ const SignUpPage = () => {
             />
           </Form.Group>
           <Form.Group controlId="formBasicConfirmPassword">
+            <Form.Label>Confirm Password</Form.Label>
             <Form.Control
               type="password"
               placeholder="Confirm Password"

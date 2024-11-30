@@ -29,6 +29,7 @@ body {
     left: 0;
     height: 100vh;
     z-index: 1000; /* Ensure it stays above the content */
+    transition: transform 0.3s ease; /* Smooth transition for hiding and showing */
 }
 
 /* Sidebar - Visible State */
@@ -44,6 +45,7 @@ body {
 /* Logo */
 .logo {
     display: flex;
+    align-items: center; /* Center items vertically */
     margin-bottom: 30px;
 }
 
@@ -53,7 +55,22 @@ body {
 
 .logo h1 {
     font-size: 1.5rem;
-    margin-top: 10px;
+    margin: 0 10px; /* Adjust space between logo and text */
+}
+
+/* Chatbot Icon */
+.chatbot-icon {
+    font-size: 2em;
+    cursor: pointer;
+    margin-left: auto; /* Push the icon to the right */
+    background-color: #fff;
+    border-radius: 50%;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.chatbot-icon:hover {
+    background-color: #f0f0f0;
 }
 
 /* User Profile */
@@ -298,4 +315,78 @@ body {
     max-width: 300px; /* Or any size you prefer */
     max-height: 300px; /* Or any size you prefer */
     object-fit: cover; /* Ensures the image covers the given dimensions */
+}
+
+/* Chatbot Icon */
+.chatbot-icon {
+    font-size: 2em;
+    cursor: pointer;
+    margin-left: auto; /* Push the icon to the right */
+    background-color: #fff;
+    border-radius: 50%;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.chatbot-icon:hover {
+    background-color: #f0f0f0;
+}
+
+/* Chatbot Container */
+.chatbot-container {
+    position: fixed;
+    bottom: 80px; /* Adjust to position it above the footer or logout button */
+    right: 20px;
+    width: 300px;
+    max-height: 70vh; /* Limit the height of the chatbot interface */
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    z-index: 2000; /* Ensure it stays above other content */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.chatbot-header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chatbot-body {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.chatbot-footer {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.chatbot-footer input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.chatbot-footer button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.chatbot-footer button:hover {
+    background-color: #0056b3;
 }
