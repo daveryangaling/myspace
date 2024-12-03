@@ -1,26 +1,31 @@
 // src/components/Chatbot.js
-import React from 'react';
-import { Button, InputGroup, FormControl } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+//import '../styles/Chatbot.css'; // Import a CSS file for additional styling
 
 const Chatbot = () => {
+  useEffect(() => {
+    // Add Chatling script to the document
+    const script1 = document.createElement('script');
+    script1.innerHTML = `window.chtlConfig = { chatbotId: "9782213171" }`;
+    document.body.appendChild(script1);
+
+    const script2 = document.createElement('script');
+    script2.src = "https://chatling.ai/js/embed.js";
+    script2.async = true;
+    script2.setAttribute('data-id', '9782213171');
+    script2.id = 'chatling-embed-script';
+    document.body.appendChild(script2);
+
+    // Cleanup script on component unmount
+    return () => {
+      document.body.removeChild(script1);
+      document.body.removeChild(script2);
+    };
+  }, []);
+
   return (
-    <div className="chatbot-container" style={{ backgroundImage: 'url(/path-to-your-background-image.jpg)', backgroundSize: 'cover', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <div className="chat-window" style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: '10px', padding: '20px', width: '400px' }}>
-        <div className="chat-header" style={{ marginBottom: '20px' }}>
-          <p>Hi my name is smartbot! How may I help you today?</p>
-        </div>
-        <div className="chat-buttons" style={{ marginBottom: '20px' }}>
-          <Button variant="primary" block>Contact Agent</Button>
-          <Button variant="primary" block>How can I see available rooms?</Button>
-          <Button variant="primary" block>Where do I start?</Button>
-        </div>
-        <InputGroup>
-          <FormControl
-            placeholder="Enter your message..."
-            aria-label="User message"
-          />
-        </InputGroup>
-      </div>
+    <div className="chatbot-container">
+      <div id="chatling-embed-container" />
     </div>
   );
 };

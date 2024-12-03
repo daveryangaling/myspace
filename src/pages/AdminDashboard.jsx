@@ -54,8 +54,26 @@ function AdminDashboard() {
           <div className="col">
             <div className="card text-center">
               <div className="card-body">
-                <h3 className="card-title">Total Requests</h3>
-                <p className="card-text">{dashboardData.totalRequests}</p>
+                <h3 className="card-title">Total Maintenance Requests</h3>
+                <p className="card-text">{dashboardData.totalMaintenanceRequests}</p>
+                <button className="btn btn-primary">More Information</button>
+              </div>
+            </div>
+          </div>
+          <div className="col">
+            <div className="card text-center">
+              <div className="card-body">
+                <h3 className="card-title">Total Renting Requests</h3>
+                <p className="card-text">{dashboardData.totalRentingRequests}</p>
+                <button className="btn btn-primary">More Information</button>
+              </div>
+            </div>
+          </div>
+          <div className="col">
+            <div className="card text-center">
+              <div className="card-body">
+                <h3 className="card-title">Total Payment Requests</h3>
+                <p className="card-text">{dashboardData.totalPaymentRequests}</p>
                 <button className="btn btn-primary">More Information</button>
               </div>
             </div>

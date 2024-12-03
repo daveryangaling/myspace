@@ -1,26 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom'; // Import Link and useLocation from react-router-dom
-import '../styles/TenantSide.css'; // Custom CSS for the sidebar
-import Chatbot from './Chatbot'; // Import your Chatbot component
+import { Link, useLocation } from 'react-router-dom';
+import '../styles/TenantSide.css';
+import Chatbot from './Chatbot';
 
 const TenantSidebar = ({ userName }) => {
-  const location = useLocation(); // Get the current URL path
-  const [isVisible, setIsVisible] = useState(true); // State to control sidebar visibility
-  const [isChatbotVisible, setIsChatbotVisible] = useState(false); // State to control chatbot visibility
+  const location = useLocation();
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     let timer;
     const handleMouseMove = () => {
-      setIsVisible(true); // Show sidebar when mouse is moved
-      clearTimeout(timer); // Clear any existing timer
+      setIsVisible(true);
+      clearTimeout(timer);
       timer = setTimeout(() => {
-        setIsVisible(true); // Hide sidebar after 3 seconds
+        setIsVisible(true);
       }, 3000);
     };
 
-    window.addEventListener('mousemove', handleMouseMove); // Listen for mouse movement
+    window.addEventListener('mousemove', handleMouseMove);
 
-    // Cleanup the event listener and timer on component unmount
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       clearTimeout(timer);
@@ -34,9 +32,6 @@ const TenantSidebar = ({ userName }) => {
         <div className="logo">
           <img src="./images/logo.png" alt="MySpace Logo" />
           <h1>MySpace</h1>
-          <div className="chatbot-icon" onClick={() => setIsChatbotVisible(!isChatbotVisible)}>
-            <i className="fa fa-comments" aria-hidden="true"></i>
-          </div>
         </div>
 
         {/* User Profile Section */}
@@ -62,12 +57,12 @@ const TenantSidebar = ({ userName }) => {
                 Tenant Information
               </Link>
             </li>
-            <li className={location.pathname === '/room-information' ? 'active' : ''}>
+           {/* <li className={location.pathname === '/room-information' ? 'active' : ''}>
               <Link to="/room-information">
                 <i className="fa fa-home" aria-hidden="true"></i>
                 Room Information
               </Link>
-            </li>
+            </li>*/}
             <li className={location.pathname === '/tenant-payment-method' ? 'active' : ''}>
               <Link to="/tenant-payment-method">
                 <i className="fa fa-credit-card" aria-hidden="true"></i>
@@ -93,20 +88,17 @@ const TenantSidebar = ({ userName }) => {
               </Link>
             </li>
           </ul>
+          {/* Chatbot Section */} 
+          <div className="chatbot-sidebar"> <Chatbot />
+          </div>
         </nav>
+
 
         {/* Log Out Link */}
         <Link to="/" className="logout-link">
           Log Out
         </Link>
       </aside>
-
-      {/* Conditionally Render the Chatbot */}
-      {isChatbotVisible && (
-        <div className="chatbot-container">
-          <Chatbot />
-        </div>
-      )}
     </div>
   );
 };

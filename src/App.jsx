@@ -18,6 +18,7 @@ import FeedbackPage from './pages/FeedbackPage';
 import TenantFeedback from './pages/TenantFeedback';
 import TenantPropertyInformation from './pages/TenantPropertyInformation';
 import Chatbot from './components/Chatbot';
+import LandingPage from './pages/LandingPage';
 import './styles/App.css';
 import './styles/TenantSide.css';
 import './styles/LoginPage.css';
@@ -29,7 +30,7 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/code-verification" element={<CodeVerificationPage />} />
@@ -47,6 +48,7 @@ function App() {
           <Route path="/tenant-feedback" element={<TenantFeedback />} />
           <Route path="/tenant-property-information" element={<TenantPropertyInformation />} />
           <Route path="/chatbot" element={<Chatbot />} />
+          <Route path="/" element={<LandingPage />} />
         </Routes>
       </div>
     </Router>

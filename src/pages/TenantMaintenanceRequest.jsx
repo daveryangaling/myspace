@@ -8,6 +8,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 function TenantMaintenanceRequest() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [maintenanceRequests, setMaintenanceRequests] = useState([]);
   const [newRequest, setNewRequest] = useState({
@@ -24,17 +25,26 @@ function TenantMaintenanceRequest() {
   }, []);
 
   const filteredRequests = maintenanceRequests.filter(request =>
-    request.name.toLowerCase().includes(searchTerm.toLowerCase())
+    request.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    request.room.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    request.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleShowModal = (request) => {
-    setSelectedRequest({ ...request });
+  const handleShowModal = (request = null) => {
+    if (request) {
+      setSelectedRequest({ ...request });
+      setIsEditing(true);
+    } else {
+      setSelectedRequest(null);
+      setIsEditing(false);
+    }
     setShowModal(true);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
     setSelectedRequest(null);
+    setIsEditing(false);
   };
 
   const handleInputChange = (e) => {
@@ -87,6 +97,7 @@ function TenantMaintenanceRequest() {
     };
     setMaintenanceRequests([...maintenanceRequests, newRequestData]);
     setNewRequest({ issue: '', room: '', files: [] });
+    handleCloseModal();
   };
 
   return (
@@ -103,7 +114,7 @@ function TenantMaintenanceRequest() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <Button variant="primary" onClick={() => setShowModal(true)}>
+        <Button variant="primary" onClick={() => handleShowModal()}>
           Create Maintenance Request
         </Button>
         <table className="table table-striped mt-3">
@@ -148,7 +159,7 @@ function TenantMaintenanceRequest() {
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Create Maintenance Request</Modal.Title>
+          <Modal.Title>{isEditing ? 'Edit Maintenance Request' : 'Create Maintenance Request'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -157,8 +168,8 @@ function TenantMaintenanceRequest() {
               <Form.Control
                 as="select"
                 name="issue"
-                value={newRequest.issue}
-                onChange={handleNewRequestChange}
+                value={selectedRequest ? selectedRequest.issue : newRequest.issue}
+                onChange={isEditing ? handleInputChange : handleNewRequestChange}
               >
                 <option value="" disabled>Select an issue (Dropdown)</option>
                 <option value="leaking_pipe">Leaking Pipe</option>
@@ -173,8 +184,8 @@ function TenantMaintenanceRequest() {
               <Form.Control
                 as="select"
                 name="room"
-                value={newRequest.room}
-                onChange={handleNewRequestChange}
+                value={selectedRequest ? selectedRequest.room : newRequest.room}
+                onChange={isEditing ? handleInputChange : handleNewRequestChange}
               >
                 <option value="" disabled>Select a room (Dropdown)</option>
                 <option value="kitchen">Kitchen</option>
@@ -190,7 +201,7 @@ function TenantMaintenanceRequest() {
                 type="file"
                 name="files"
                 multiple
-                onChange={handleFileChange}
+                onChange={isEditing ? handleFileChange : handleFileChange}
               />
             </Form.Group>
           </Form>
@@ -199,9 +210,15 @@ function TenantMaintenanceRequest() {
           <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleCreateRequest}>
-            Submit Request
-          </Button>
+          {isEditing ? (
+            <Button variant="primary" onClick={handleSaveChanges}>
+              Save Changes
+            </Button>
+          ) : (
+            <Button variant="primary" onClick={handleCreateRequest}>
+              Submit Request
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
     </div>

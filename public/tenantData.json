@@ -3,6 +3,8 @@
     "address": "123 Main St, Barangay Central",
     "contactNumber": "09123456789",
     "email": "johndoe@gmail.com",
-    "profilePicture": "../assets/logo.png"
+    "gender": "Male",
+    "birthday": "1990-01-01",
+    "profilePicture": "./images/john.jpg"
   }
   
