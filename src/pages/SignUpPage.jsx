@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './bootstrap/css/bootstrap.min.css';
 //import '../styles/SignUpPage.css'; // Ensure the correct CSS file path
 
@@ -25,21 +27,25 @@ const SignUpPage = () => {
     // Validation checks
     if (!email.trim() || !password.trim() || !confirmPassword.trim()) {
       setError('Please fill in all fields.');
+      toast.error('Please fill in all fields.');
       return;
     }
 
     if (!email.includes('@')) {
       setError('Invalid email format. Please include "@" in your email.');
+      toast.error('Invalid email format. Please include "@" in your email.');
       return;
     }
 
     if (password.length < 6) {
       setError('Password must be at least 6 characters.');
+      toast.error('Password must be at least 6 characters.');
       return;
     }
 
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
+      toast.error('Passwords do not match.');
       return;
     }
 
@@ -48,60 +54,67 @@ const SignUpPage = () => {
 
     // Provide feedback and navigate to home
     setFeedback('Sign up successful! Redirecting...');
+    toast.success('Sign up successful! Redirecting...');
     setTimeout(() => navigate('/'), 1500); // Redirect after showing feedback
   };
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100 bg-custom">
+      <ToastContainer />
       <div className="form-container text-center">
-        <div className="mb-4">
-          <img src="./images/logo.png" alt="MySpace Logo" className="logo" />
-          <h1 className="h3 mb-3 font-weight-normal">Sign Up</h1>
-        </div>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </Form.Group>
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </Form.Group>
-          <Form.Group controlId="formBasicConfirmPassword">
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-          </Form.Group>
-          {error && <p className="text-danger small">{error}</p>}
-          {feedback && <p className="text-success small">{feedback}</p>}
-          <Button variant="primary" type="submit" block>
-            Sign Up
+        <div
+          className="card p-4 shadow"
+          style={{ maxWidth: '600px', width: '100%', borderRadius: '10px', maxHeight: '120vh', height: 'auto' }}
+        >
+          <div className="mb-4">
+            <img src="./images/logo.png" alt="MySpace Logo" className="logo" />
+            <h1 className="h3 mb-3 font-weight-normal">Sign Up</h1>
+          </div>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group controlId="formBasicConfirmPassword">
+              <Form.Label>Confirm Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </Form.Group>
+            {error && <p className="text-danger small">{error}</p>}
+            {feedback && <p className="text-success small">{feedback}</p>}
+            <Button variant="primary" type="submit" block>
+              Sign Up
+            </Button>
+          </Form>
+          <hr />
+          <Button variant="outline-danger" block>
+            <i className="fab fa-google"></i> Sign Up with Google
           </Button>
-        </Form>
-        <hr />
-        <Button variant="outline-danger" block>
-          <i className="fab fa-google"></i> Sign Up with Google
-        </Button>
-        <Button variant="outline-primary" block>
-          <i className="fab fa-facebook-f"></i> Sign Up with Facebook
-        </Button>
-        <p className="mt-3">
-          Already have an account? <Link to="/">Log In</Link>
-        </p>
+          <Button variant="outline-primary" block>
+            <i className="fab fa-facebook-f"></i> Sign Up with Facebook
+          </Button>
+          <p className="mt-3">
+            Already have an account? <Link to="/login">Log In</Link>
+          </p>
+        </div>
       </div>
     </div>
   );

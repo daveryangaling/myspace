@@ -12,7 +12,15 @@
       "rent": "$1500/month",
       "leaseStart": "02/01/2023",
       "leaseEnd": "01/31/2024"
+    },
+    {
+      "name": "Apartment 3C",
+      "address": "789 South St, City, State",
+      "rent": "$1000/month",
+      "leaseStart": "03/01/2023",
+      "leaseEnd": "02/29/2024"
     }
+    
     
   ]
   

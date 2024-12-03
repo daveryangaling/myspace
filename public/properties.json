@@ -4,7 +4,7 @@
       "name": "Property 1",
       "type": "Single Family Home",
       "status": "Available",
-      "tenant": "John Doe",
+      "tenant": "",
       "image": "./images/singles.jpg"
     },
     {
@@ -22,6 +22,14 @@
         "status": "Occupied",
         "tenant": "Tony Stark",
         "image": "./images/duplex.jpg"
+      },
+      {
+        "id": 4,
+        "name": "Property 4",
+        "type": "Bed Spacer",
+        "status": "Available",
+        "tenant": "",
+        "image": "./images/bedspacer.jpg"
       }
    
   ]

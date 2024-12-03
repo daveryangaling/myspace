@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './bootstrap/css/bootstrap.min.css';
 import '../styles/LoginPage.css';
 
@@ -29,6 +31,7 @@ function LoginPage() {
 
     if (!email.trim() || !password.trim() || !selectedRole) {
       setError('Please fill in all fields and select a role.');
+      toast.error('Please fill in all fields and select a role.');
       return;
     }
 
@@ -39,15 +42,20 @@ function LoginPage() {
 
     // Allow login for both registered and unregistered users
     if (user || !registeredUsers.some((user) => user.email === email)) {
+      // Show logging in notification
+      toast.success('Logging in...');
       // Navigate based on selected role
-      if (selectedRole === 'owner') {
-        navigate('/admin-dashboard');
-      } else if (selectedRole === 'tenant') {
-        navigate('/tenant-dashboard');
-      }
+      setTimeout(() => {
+        if (selectedRole === 'owner') {
+          navigate('/admin-dashboard');
+        } else if (selectedRole === 'tenant') {
+          navigate('/tenant-dashboard');
+        }
+      }, 1000); // Adjust delay as needed
     } else {
       // Invalid email or password for registered users
       setError('Invalid email or password.');
+      toast.error('Invalid email or password.');
     }
   };
 
@@ -64,9 +72,10 @@ function LoginPage() {
         backgroundPosition: 'center',
       }}
     >
+      <ToastContainer />
       <div
         className="card p-4 shadow"
-        style={{ maxWidth: '400px', width: '100%', borderRadius: '10px' }}
+        style={{ maxWidth: '500px', width: '100%', borderRadius: '10px', maxHeight: '120vh', height: '100%' }}
       >
         <div className="text-center mb-4">
           <img src="./images/logo.png" alt="MySpace Logo" className="logo" />

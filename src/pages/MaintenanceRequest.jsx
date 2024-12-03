@@ -20,7 +20,9 @@ function MaintenanceRequest() {
   }, []);
 
   const filteredRequests = maintenanceRequests.filter(request =>
-    request.name.toLowerCase().includes(searchTerm.toLowerCase())
+    request.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    request.room.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    request.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleShowModal = (request) => {

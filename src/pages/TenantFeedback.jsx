@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Table, Form, FormControl } from 'react-bootstrap';
 import Sidebar from '../components/TenantSidebar'; // Import the Sidebar component
 import '../styles/TenantSide.css';
@@ -12,6 +12,13 @@ const TenantFeedback = () => {
     property: '',
     description: ''
   });
+
+  useEffect(() => {
+    fetch('/feedbacks.json')
+      .then((response) => response.json())
+      .then((data) => setFeedbacks(data))
+      .catch((error) => console.error('Error fetching feedback:', error));
+  }, []);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;

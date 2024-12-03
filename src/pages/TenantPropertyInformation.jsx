@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/TenantSidebar';
 import './bootstrap/css/bootstrap.min.css';
 import '../styles/TenantSide.css'; // Import your custom CSS
+import { Carousel, Button, Modal } from 'react-bootstrap';
 
 function TenantPropertyInformation() {
   const [properties, setProperties] = useState([]);
@@ -25,11 +26,21 @@ function TenantPropertyInformation() {
   const handleFilterTypeChange = (event) => {
     setFilterType(event.target.value);
   };
-  
 
   const filteredProperties = filterType === 'All' 
     ? properties 
     : properties.filter(property => property.type === filterType);
+
+  const renderFeedback = (status) => {
+    return status === 'Available'
+      ? <p className="alert alert-success">This property is available for rent. Feel free to contact us for more details!</p>
+      : <p className="alert alert-info">This property is currently occupied. Please check back later for availability.</p>;
+  };
+
+  const handleRentProperty = (property) => {
+    alert(`You've chosen to rent ${property.name}. Please contact us for further details.`);
+    // Add logic to handle the rent property action
+  };
 
   return (
     <div className="tenant-dashboard-container">
@@ -52,42 +63,36 @@ function TenantPropertyInformation() {
           </div>
         </div>
 
-        <div className="row mt-4">
+        <Carousel className="mt-4">
           {filteredProperties.map((property) => (
-            <div
-              key={property.id}
-              className={`col-md-4 mb-4 property-card ${property.status === 'Occupied' ? 'bg-danger' : 'bg-success'} text-white p-3`}
-              style={{ cursor: 'pointer' }}
-              onClick={() => openPropertyDetails(property)}
-            >
-              <img src={`${process.env.PUBLIC_URL}/${property.image}`} alt={property.name} style={{ width: '100%' }} />
-              <h3>{property.name}</h3>
-              <p>{property.type}</p>
-              <span>{property.status}</span>
-            </div>
+            <Carousel.Item key={property.id} onClick={() => openPropertyDetails(property)}>
+              <img 
+                src={`${process.env.PUBLIC_URL}/${property.image}`} 
+                alt={property.name} 
+                className="carousel-image" 
+                style={{ cursor: 'pointer' }} 
+              />
+            </Carousel.Item>
           ))}
-        </div>
+        </Carousel>
 
         {selectedProperty && (
-          <div className="modal fade show" style={{ display: 'block' }}>
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title">{selectedProperty.name}</h5>
-                  <button type="button" className="btn-close" onClick={closePropertyDetails}></button>
-                </div>
-                <div className="modal-body">
-                  <p>Type: {selectedProperty.type}</p>
-                  <p>Status: {selectedProperty.status}</p>
-                  <p>Tenant: {selectedProperty.tenant}</p>
-                  <img src={`${process.env.PUBLIC_URL}/${selectedProperty.image}`} alt={selectedProperty.name} style={{ width: '100%' }} />
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" onClick={closePropertyDetails}>Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Modal show={selectedProperty !== null} onHide={closePropertyDetails}>
+            <Modal.Header closeButton>
+              <Modal.Title>{selectedProperty.name}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>Type: {selectedProperty.type}</p>
+              <p>Status: {selectedProperty.status}</p>
+              <p>Tenant: {selectedProperty.tenant}</p>
+              <img src={`${process.env.PUBLIC_URL}/${selectedProperty.image}`} alt={selectedProperty.name} style={{ width: '100%' }} />
+              {renderFeedback(selectedProperty.status)}
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="primary" onClick={() => handleRentProperty(selectedProperty)}>Rent this Property</Button>
+              <Button variant="secondary" onClick={closePropertyDetails}>Close</Button>
+            </Modal.Footer>
+          </Modal>
         )}
       </div>
     </div>

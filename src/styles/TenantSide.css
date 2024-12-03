@@ -2,7 +2,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-image: url('../assets/tenantbg.png'); /* Background Image */
+    background-color:#f0f0f0; /* Background Image */
     background-size: auto;
     background-repeat: no-repeat;
     height: 100vh;
@@ -15,6 +15,30 @@ body {
     overflow: hidden; /* Prevent scrolling overlap */
 }
 
+.info-card {
+  padding: 20px;
+}
+
+.text-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.property-card img {
+    width: 100%;
+    height: 200px; /* Set a fixed height */
+    object-fit: cover; /* Ensure the image covers the entire area without distortion */
+}
+
+.carousel-image {
+    max-height: 400px;
+    object-fit: cover;
+    width: 100%;
+}
+  
 /* Sidebar */
 .sidebar {
     width: 250px;
@@ -389,4 +413,26 @@ body {
 
 .chatbot-footer button:hover {
     background-color: #0056b3;
+}
+
+/* Property Card Buttons */
+.property-card .button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.property-card span {
+  display: block;
+  margin-top: 5px;
+}
+
+/* Modal Content */
+.modal-body input,
+.modal-body select {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 5px;
+  box-sizing: border-box;
 }
